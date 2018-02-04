@@ -15,6 +15,7 @@
 </head>
 <body>
 <div id="div_tarefas">
+<center>
 <?php
         
 		/* verifica se operação existe */ 
@@ -37,6 +38,7 @@
 		}
 		
 ?>
+</center>
 </div>
 </body>
 </html>

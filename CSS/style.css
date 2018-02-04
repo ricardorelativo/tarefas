@@ -21,11 +21,6 @@ background-size:100% 100%;
 
 /* personalização das divs como tabelas */
 
-#div_tarefa {
-    text-align: center;
-    width: 100%;
-}
-
 .div-table{
     display: table !important;
     width: 90%;
