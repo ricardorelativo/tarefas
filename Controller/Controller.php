@@ -141,9 +141,9 @@ class Controller {
                                 <div class="div-table-cell"><?= $linhas['id'] ?></div>
                                 <div class="div-table-cell"><?= $linhas['data'] ?></div>
                                 <div class="div-table-cell"><?= $linhas['horario'] ?></div>
-                                <div class="div-table-cell"><?= $linhas['nome'] ?></div>
+                                <div class="div-table-cell"><?= utf8_encode($linhas['nome']) ?></div>
                                 <div class="div-table-cell">
-                                <input TYPE="BUTTON" NAME="submit" class="bt_ListarEditar" value="Editar" onclick="alterar('<?php echo $linhas["id"] . "', '" . $linhas["data"] . "', '" . $linhas["horario"] . "', '" . $linhas["nome"]; ?>')" >
+                                <input TYPE="BUTTON" NAME="submit" class="bt_ListarEditar" value="Editar" onclick="alterar('<?php echo $linhas["id"]; ?>')" >
                                 </div>
                                 <div class="div-table-cell">
                                 <input TYPE="BUTTON" NAME="submit" class="bt_ListarExcluir" value="Excluir" onclick="apagar('<?= $linhas['id'] ?>')" >
@@ -169,7 +169,7 @@ class Controller {
         
 	}
 	
-    public function editar($id,$data,$horario,$nome) {
+    public function editar($id) {
        
 	
 		echo '  
@@ -179,15 +179,15 @@ class Controller {
             </div><div class="div-table-row">
                 <div class="div-table-cell" >
                 <label>Dia:</label>
-                <input type="date" name="data" value="'. $data .'"></div>
+                <input type="date" name="data" value=""></div>
             </div><div class="div-table-row">
                 <div class="div-table-cell" >
                 <label>Horário:</label>
-                <input type="time" name="horario" value="'. $horario .'"></div>
+                <input type="time" name="horario" value=""></div>
             </div><div class="div-table-row">
                 <div class="div-table-cell" >
                 <label>Descrição:</label>
-                <input type="text" name="nome" value="'. $nome .'"></div>
+                <input type="text" name="nome" value=""></div>
             </div><div class="div-table-row">
                 <div class="div-table-cell" >
                 <button type="submit" class="bt_SalvaTarefa">Salvar</button>

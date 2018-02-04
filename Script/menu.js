@@ -24,10 +24,10 @@
     });
 
     /* função para pegar ID que deseja editar */
-    function alterar(id,data,horario,nome){
+    function alterar(id){
                
             $(document).ready(function() {
-                $("#div_tarefas").load("index.php?operacao=Listar&acao=editar&id=" + id + "&data=" + data + "&horario=" + horario + "&nome=" + nome);  
+                $("#div_tarefas").load("index.php?operacao=Listar&acao=editar&id=" + id);  
             });
                
     }

@@ -44,7 +44,7 @@ class View {
         } elseif ((isset($_GET['acao'])) && (isset($_GET['id'])) && ($_GET['acao']=='editar')){
             
         $controller = new Controller();
-		$controller->editar($_GET['id'],$_GET['data'],$_GET['horario'],$_GET['nome']); 
+		$controller->editar($_GET['id']); 
    
 		/* verifica se existe as variáveis e se a ação é de salvar */
         } elseif ((isset($_GET['acao'])) && ($_GET['acao']=='salvar')){
