@@ -5,33 +5,43 @@ class Controller {
     /* função para criar os botões de navegação */
     public function botoes($tipo) {
         
-        /* personalizando o msg sistema  */
+        /* personalizando o msg sistema  
+		personalização das cores dos botões*/
         switch($tipo)   {
     
             case "tarefa":
                     $msg = ' - Listar';
+                    $cor1 = 'silver';
+                    $cor2 = 'blue';
+                    $cor3 = 'silver';
             break;
             case "nova":
                     $msg = ' - Nova';
+                    $cor1 = 'silver';
+                    $cor2 = 'silver';
+                    $cor3 = 'blue';
             break;
             default: 
 
                     $msg = ' - Home';
+                    $cor1 = 'blue';
+                    $cor2 = 'silver';
+                    $cor3 = 'silver';
 
             break;
         }
         
         /* exibe lista dos botões */
         echo '
-         <div class="div-table">
-            <div class="div-table-row">
-                <div class="div-table-cell"><h3>Lista de Tarefas'. $msg .'</h3>
+         <div class="div-table" style="background-color: rgba(255, 255, 255, 0.4);">
+            <div class="div-table-row" style="border:0;">
+                <div class="div-table-cell" style="border:0;"><h3>Lista de Tarefas'. $msg .'</h3>
                 </div>
             </div>
         </div>
-                <div id="bt_Geral" >Página Inicial</div>
-                <div id="bt_Listar" >Listar Tarefas</div>
-                <div id="bt_Adicionar" >Adicionar Tarefa</div>
+                <div id="bt_Geral" style="background-color: ' . $cor1 . '; border-radius: 50%; padding: 15px; display: inline;" >Página Inicial</div>
+                <div id="bt_Listar" style="background-color: ' . $cor2 . '; border-radius: 50%; padding: 15px; display: inline;" >Listar Tarefas</div>
+                <div id="bt_Adicionar" style="background-color: ' . $cor3 . '; border-radius: 50%; padding: 15px; display: inline;" >Adicionar Tarefa</div>
         ';
         
     }
