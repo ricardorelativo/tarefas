@@ -71,8 +71,39 @@ class Controller {
 	
     public function adicionar() {
       
+	  echo "
+         <div class='div-table'>
+            <div class='div-table-row'>
+                <div class='div-table-cell' >
+        
+                    <label>Dia:</label>
+                    <input type='date' name='data' value=''><BR>
+                    <label>Horário:</label>
+                    <input type='time' name='horario' value=''><BR>
+                    <label>Descrição:</label>
+                    <input type='text' name='nome' value=''><BR>
+
+                    <button type='submit' class='bt_NovaTarefa'>Adicionar</button>
+        
+                </div>
+            </div>
+        </div>";
+		
     }	
-    
+	
+    /* função que grava uma nova tarefa */
+    public function adicionarTarefa () {
+		 
+        echo '
+         <div class="div-table">
+            <div class="div-table-row">
+                <div class="div-table-cell"><h3>Nada foi adicionado</h3>
+                </div>
+            </div>
+        </div>';
+     
+    }	
+	
     public function listar() {
 	
 	}
