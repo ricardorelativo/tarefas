@@ -14,8 +14,36 @@ class Model {
         return $con;  
     }
     
+          
+    public function listarTarefas(){
+        
+        // conectando base dados e retornar a query
+        $model = new Model();
+        $conexao = $model->conectar();	
+        $consulta = "SELECT * FROM tarefas"; 
+        $sql = mysqli_query($conexao, $consulta);
+        
+        return $sql;
+    }
+	
     public function excluirDados($id) {
         
+		// faz conexão com banco de dados
+        $model = new Model();
+        $con=$model->conectar();
+
+       
+        // insera as informacoes
+        $sql = "DELETE FROM tarefas WHERE id = " . $id;
+        
+        // verifica se houve erro
+        if (!mysqli_query($con,$sql))
+        {
+            die('<BR>Error: ' . mysqli_error($con));
+        }
+
+        // finaliza a conexão
+        mysqli_close($con);
 				
     }
   
@@ -24,9 +52,25 @@ class Model {
 				
     }
     
-    public function adicionarDados($id,$data,$horario,$nome) {
+    public function adicionarDados($data,$horario,$nome) {
         
-				
+		// faz conexão com banco de dados
+        $model = new Model();
+        $con=$model->conectar();
+
+       
+        // insera as informacoes
+        $sql="INSERT INTO tarefas (data, horario, nome) VALUES ('$data','$horario','$nome')";
+
+
+        // verifica se houve erro
+        if (!mysqli_query($con,$sql))
+        {
+            die('<BR>Error: ' . mysqli_error($con));
+        }
+
+        // finaliza a conexão
+        mysqli_close($con);		
     }
     
 }

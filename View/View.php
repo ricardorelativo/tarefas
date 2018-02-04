@@ -68,9 +68,19 @@ class View {
 		/* verifica existencia de ação */
         if((isset($_GET['acao'])) && ($_GET['acao']=='nova')){
     
+		echo '
+        <div class="div-table">
+			<div class="div-table-row">
+				<div class="div-table-cell">';
+                
+        /* pega variavel codificada */
+        $dadosEnc = $_GET['incluir'];
+
         /* exibe formulario para adicionar */
         $controller = new Controller();
-		$controller->adicionarTarefa(); 
+		$controller->adicionarTarefa($dadosEnc); 
+            
+        echo '</div></div></div>';
             
             
         } else {
