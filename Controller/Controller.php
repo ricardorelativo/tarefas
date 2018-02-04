@@ -196,6 +196,20 @@ class Controller {
         </div>';
         
     }
+	
+    /* função que grava as alterações da tarefa */
+    public function salvarTarefa () {
+		 
+        echo '
+        
+         <div class="div-table">
+            <div class="div-table-row">
+                <div class="div-table-cell"><h3>Nada foi salvo</h3>
+                </div>
+            </div>
+        </div>';
+     
+    }	
     
     public function excluir($id) {
     		
