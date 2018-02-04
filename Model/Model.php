@@ -20,7 +20,7 @@ class Model {
         // conectando base dados e retornar a query
         $model = new Model();
         $conexao = $model->conectar();	
-        $consulta = "SELECT * FROM tarefas"; 
+        $consulta = "SELECT * FROM tarefas ORDER BY data ASC, horario ASC"; 
         $sql = mysqli_query($conexao, $consulta);
         
         return $sql;

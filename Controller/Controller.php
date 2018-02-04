@@ -81,20 +81,18 @@ class Controller {
 	
     public function adicionar() {
       
- echo '   
+ ?>
         <div class="div-table">
             <div class="div-table-row">
                 <div class="div-table-cell">
-                
-                    <div id="situacao"></div>                        
                         
                     <center><div class="div-table" style="width:  50%;">
                     <div class="div-table-row">
                         <div class="div-table-cell"><strong>Dia:</strong>
-                        <input name="novadata" type="date" id="novadata" /></div>
+                        <input name="novadata" type="text" id="novadata" OnKeyPress="formatar(this, '##/##/####')" onBlur="return doDate(this.id,this.value, 4);" maxlength="10"  /></div>
 
                         <div class="div-table-cell"><strong>Horário:</strong>
-                        <input name="novohorario" type="time" id="novohorario" /></div>
+                        <input name="novohorario" type="text" id="novohorario" OnKeyPress="formatar(this, '##:##')"  onBlur="return doHorario(this.id,this.value);"  maxlength="5"   /></div>
                         </div></div></center>
                     
                         <strong>Descrição:</strong> 
@@ -106,7 +104,10 @@ class Controller {
 
                 </div>
             </div>
-        </div>';
+        </div>
+
+<?php
+            
 		
     }	
 	
@@ -118,8 +119,13 @@ class Controller {
             /* realiza separação das variaveis */
             $dadosArray = explode('#@', $dadosGeral);
 
-            $data = $dadosArray[1];
-            $horario = $dadosArray[2];
+			$dataNormal = base64_decode($dadosArray[1]);
+        
+            /* realiza conversão da data antes de inserir na base de dados */
+            $dataArray = explode('/', $dataNormal);
+            $data = $dataArray[2] . '-' . $dataArray[1]  . '-' . $dataArray[0]  ;
+        
+            $horario = base64_decode($dadosArray[2]);
             $nome = base64_decode($dadosArray[3]);
         
     
@@ -160,7 +166,16 @@ class Controller {
         // Se não houver nenhum erro
         } else {
             
-            echo "Tarefa adicionada com Sucesso<BR>(Dia " . $data . " as " . $horario . " - ".  utf8_encode($nome) . ")";
+			/* realiza conversão da data antes exibir */
+            $dataArray = explode('-', $data);
+            $exibirData = $dataArray[2] . '/' . $dataArray[1]  . '/' . $dataArray[0]  ;
+            
+            
+            /* realiza conversão da data antes exibir */
+            $horarioArray = explode(':', $horario);
+            $exibirHorario = $horarioArray[0]  . ':' . $horarioArray[1] ;
+			
+			echo "Tarefa adicionada com Sucesso<BR>".  utf8_encode($nome) . " - No dia " . $exibirData . " as " . $exibirHorario;
             
         /* conecta ao MySQL pelo Model e realiza a inclusão da tarefa  */
         $model = new Model();
@@ -191,11 +206,22 @@ class Controller {
             
             /* inicio do loop */    
             while($linhas = mysqli_fetch_assoc($sql)):
-            ?>
+            
+			   
+            /* realiza conversão da data antes exibir */
+            $dataArray = explode('-', $linhas['data']);
+            $data = $dataArray[2] . '/' . $dataArray[1]  . '/' . $dataArray[0]  ;
+            
+            /* realiza limpeza dos segundos do campo horário */
+            $horarioArray = explode(':', $linhas['horario']);
+            $horario = $horarioArray[0]  . ':' . $horarioArray[1] ;
+			
+			
+			?>
                                 <div class="div-table-row">
                                 <div class="div-table-cell"><?= $linhas['id'] ?></div>
-                                <div class="div-table-cell"><?= $linhas['data'] ?></div>
-                                <div class="div-table-cell"><?= $linhas['horario'] ?></div>
+                                <div class="div-table-cell"><?= $data ?></div>
+                                <div class="div-table-cell"><?= $horario ?></div>
                                 <div class="div-table-cell"><?= utf8_encode($linhas['nome']) ?></div>
                                 <div class="div-table-cell">
                                 <input TYPE="BUTTON" NAME="submit" class="bt_ListarEditar" value="Editar" onclick="alterar('<?php echo $linhas["id"]; ?>')" >
