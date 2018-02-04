@@ -9,6 +9,7 @@ class View {
         <div class="div-table">
 			<div class="div-table-row">
 				<div class="div-table-cell">
+                    
 				<h3>Sistema está no momento em desenvolvimento</h3>
 				</div>
 			</div>
@@ -45,12 +46,13 @@ class View {
             
         $controller = new Controller();
 		$controller->editar($_GET['id']); 
-   
-		/* verifica se existe as variáveis e se a ação é de salvar */
-        } elseif ((isset($_GET['acao'])) && ($_GET['acao']=='salvar')){
         
+		/* verifica se existe as variáveis e se a ação é de salvar */
+        } elseif ((isset($_GET['acao'])) && (isset($_GET['mudanca'])) && ($_GET['acao']=='editar')){
+            
+            
         $controller = new Controller();
-		$controller->salvarTarefa(); 
+		$controller->salvar($_GET['mudanca']); 
         
 		/* caso não tenha sido validado nenhum dos critérios acima */
         } else {
@@ -67,8 +69,8 @@ class View {
 	    
 		/* verifica existencia de ação */
         if((isset($_GET['acao'])) && ($_GET['acao']=='nova')){
-    
-		echo '
+       
+        echo '
         <div class="div-table">
 			<div class="div-table-row">
 				<div class="div-table-cell">';
@@ -81,7 +83,6 @@ class View {
 		$controller->adicionarTarefa($dadosEnc); 
             
         echo '</div></div></div>';
-            
             
         } else {
         
@@ -99,6 +100,7 @@ class View {
 		
 		/* verifica existencia de ação */
         if((isset($_GET['acao'])) && ($_GET['acao']=='salvar')){
+        
     
         /* exibe formulario para adicionar */
         $controller = new Controller();

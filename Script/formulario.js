@@ -18,7 +18,28 @@
 
 $(document).ready(function() {
     
-			/* função para processar o cadastro do nova tarefa */
+            
+            $(".bt_SalvaTarefa").click(function(){
+
+                
+                /* pegar valores do formulário com JS e criptografar as informações*/
+                 var editarid = window.btoa($("input[name=editarid]").val());
+                 var editardata = window.btoa($("input[name=editardata]").val());
+                 var editarhorario = window.btoa($("input[name=editarhorario]").val());
+                 var editarnome = window.btoa($("input[name=editarnome]").val());
+           
+                
+                /* criptografar informações novamente com BASE64 */
+                var enc = window.btoa('#@'+editarid+'#@'+editardata+'#@'+editarhorario+'#@'+editarnome+'#@');
+             
+            /* envia dados pela URL para que possa ser pego pelo GET editar*/
+            $("#div_tarefas").load('index.php?operacao=Listar&acao=editar&mudanca='+enc);
+                
+                
+            });
+    
+    
+    			/* função para processar o cadastro do nova tarefa */
             $(".bt_NovaTarefa").click(function(){
     
                 /* pegar valores do formulário com JS  e criptografar as informações*/
@@ -37,9 +58,10 @@ $(document).ready(function() {
                 
                 
             });
+    
  });
 
- /* formatar entrada do campo input */
+/* formatar entrada do campo input */
 function formatar(src, mask)
 {
 var i = src.value.length;

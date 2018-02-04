@@ -13,7 +13,6 @@ class Model {
         }
         return $con;  
     }
-    
           
     public function listarTarefas(){
         
@@ -25,10 +24,11 @@ class Model {
         
         return $sql;
     }
-	
+    
     public function excluirDados($id) {
         
-		// faz conexão com banco de dados
+				        
+        // faz conexão com banco de dados
         $model = new Model();
         $con=$model->conectar();
 
@@ -44,17 +44,57 @@ class Model {
 
         // finaliza a conexão
         mysqli_close($con);
+        
+    }
+  
+    public function selecionarDados($id) {
+        
+        // conectando base dados e retornar a query
+        $model = new Model();
+        $conexao = $model->conectar();	
+        $consulta = "SELECT * FROM tarefas WHERE id = " . $id; 
+        $sql = mysqli_query($conexao, $consulta);
+        
+        return $sql;
 				
     }
   
     public function editarDados($id,$data,$horario,$nome) {
         
+        // conectando base dados e retornar a query
+        $model = new Model();
+        $conexao = $model->conectar();	
+        $consulta = "SELECT * FROM tarefas ORDER BY data ASC, horario ASC"; 
+        $sql = mysqli_query($conexao, $consulta);
+        
+        return $sql;
 				
+    }
+    
+    public function alterarDados($id, $data,$horario,$nome) {
+        
+        // faz conexão com banco de dados
+        $model = new Model();
+        $con=$model->conectar();
+        
+        // insera as informacoes
+        $sql="UPDATE tarefas SET data='$data', horario='$horario', nome='$nome' WHERE id='$id'";
+        
+        // verifica se houve erro
+        if (!mysqli_query($con,$sql))
+        {
+            die('<BR>Error: ' . mysqli_error($con));
+        }
+
+        // finaliza a conexão
+        mysqli_close($con);
+
+        
     }
     
     public function adicionarDados($data,$horario,$nome) {
         
-		// faz conexão com banco de dados
+        // faz conexão com banco de dados
         $model = new Model();
         $con=$model->conectar();
 
@@ -70,9 +110,12 @@ class Model {
         }
 
         // finaliza a conexão
-        mysqli_close($con);		
+        mysqli_close($con);
+
+        
     }
     
 }
+
 
 ?>

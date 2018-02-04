@@ -80,7 +80,7 @@ class Controller {
     }
 	
     public function adicionar() {
-      
+      		
  ?>
         <div class="div-table">
             <div class="div-table-row">
@@ -99,6 +99,8 @@ class Controller {
                         <input name="novonome" type="text" id="novonome" size="50" />
                         
                         <br /><br />
+                    
+                        <input type="submit" class="bt_CancelarTarefa" value="Cancelar" />
                         
                         <input type="submit" class="bt_NovaTarefa" value="Adicionar" />
 
@@ -108,22 +110,26 @@ class Controller {
 
 <?php
             
-		
+            
     }	
 	
     /* função que grava uma nova tarefa */
- public function adicionarTarefa ($codigoEnc) {
+    public function adicionarTarefa ($codigoEnc) {
 		 
             $dadosGeral = base64_decode($codigoEnc);
             
             /* realiza separação das variaveis */
             $dadosArray = explode('#@', $dadosGeral);
 
-			$dataNormal = base64_decode($dadosArray[1]);
+            $dataNormal = base64_decode($dadosArray[1]);
         
-            /* realiza conversão da data antes de inserir na base de dados */
+            /* verifica se campo data não está em branco e realiza conversão da data antes de inserir na base de dados */
+            if($dataNormal != ''){
             $dataArray = explode('/', $dataNormal);
             $data = $dataArray[2] . '-' . $dataArray[1]  . '-' . $dataArray[0]  ;
+            } else {
+            $data = '';
+            }
         
             $horario = base64_decode($dadosArray[2]);
             $nome = base64_decode($dadosArray[3]);
@@ -166,7 +172,7 @@ class Controller {
         // Se não houver nenhum erro
         } else {
             
-			/* realiza conversão da data antes exibir */
+            /* realiza conversão da data antes exibir */
             $dataArray = explode('-', $data);
             $exibirData = $dataArray[2] . '/' . $dataArray[1]  . '/' . $dataArray[0]  ;
             
@@ -174,8 +180,9 @@ class Controller {
             /* realiza conversão da data antes exibir */
             $horarioArray = explode(':', $horario);
             $exibirHorario = $horarioArray[0]  . ':' . $horarioArray[1] ;
-			
-			echo "Tarefa adicionada com Sucesso<BR>".  utf8_encode($nome) . " - No dia " . $exibirData . " as " . $exibirHorario;
+            
+            
+            echo "Tarefa adicionada com Sucesso<BR>".  utf8_encode($nome) . " - No dia " . $exibirData . " as " . $exibirHorario;
             
         /* conecta ao MySQL pelo Model e realiza a inclusão da tarefa  */
         $model = new Model();
@@ -183,7 +190,7 @@ class Controller {
             
         }
      
-    }		
+    }	
 	
     public function listar() {
 		
@@ -207,17 +214,17 @@ class Controller {
             /* inicio do loop */    
             while($linhas = mysqli_fetch_assoc($sql)):
             
-			   
+            
             /* realiza conversão da data antes exibir */
             $dataArray = explode('-', $linhas['data']);
             $data = $dataArray[2] . '/' . $dataArray[1]  . '/' . $dataArray[0]  ;
             
-            /* realiza limpeza dos segundos do campo horário */
+            /* realiza conversão da data antes exibir */
             $horarioArray = explode(':', $linhas['horario']);
             $horario = $horarioArray[0]  . ':' . $horarioArray[1] ;
-			
-			
-			?>
+            
+            ?>
+                               
                                 <div class="div-table-row">
                                 <div class="div-table-cell"><?= $linhas['id'] ?></div>
                                 <div class="div-table-cell"><?= $data ?></div>
@@ -252,45 +259,106 @@ class Controller {
 	
     public function editar($id) {
        
-	
-		echo '  
-		<div class="div-table">
+        $model = new Model();
+        $sql = $model->selecionarDados($id);
+        
+        $exibe = mysqli_fetch_assoc($sql);
+    
+                    
+            /* realiza conversão da data antes exibir */
+            $dataArray = explode('-', $exibe['data']);
+            $data = $dataArray[2] . '/' . $dataArray[1]  . '/' . $dataArray[0]  ;
+            
+            /* realiza conversão da data antes exibir */
+            $horarioArray = explode(':', $exibe['horario']);
+            $horario = $horarioArray[0]  . ':' . $horarioArray[1] ;
+        
+    
+  ?>
+        <div class="div-table">
             <div class="div-table-row">
-                <div class="div-table-cell"><h3>Tarefa selecionada: <b>#' . $id . '</b></h3></div>
-            </div><div class="div-table-row">
-                <div class="div-table-cell" >
-                <label>Dia:</label>
-                <input type="date" name="data" value=""></div>
-            </div><div class="div-table-row">
-                <div class="div-table-cell" >
-                <label>Horário:</label>
-                <input type="time" name="horario" value=""></div>
-            </div><div class="div-table-row">
-                <div class="div-table-cell" >
-                <label>Descrição:</label>
-                <input type="text" name="nome" value=""></div>
-            </div><div class="div-table-row">
-                <div class="div-table-cell" >
-                <button type="submit" class="bt_SalvaTarefa">Salvar</button>
+                <div class="div-table-cell"><h3>Tarefa selecionada: <b>#<?= $id ?></b></h3></div>
+            </div>
+            
+            <div class="div-table-row">
+                <div class="div-table-cell">
+                        
+                    <center><div class="div-table" style="width:  50%;">
+                    <div class="div-table-row">
+                        <input type="hidden" name="editarid"  id="editarid" value="<?= $id ?>">
+                        
+                        <div class="div-table-cell"><strong>Dia:</strong>
+                        <input name="editardata" type="text" id="editardata" OnKeyPress="formatar(this, '##/##/####')" onBlur="return doDate(this.id,this.value, 4);" maxlength="10" value="<?= $data ?>" /></div>
+
+                        <div class="div-table-cell"><strong>Horário:</strong>
+                        <input name="editarhorario" type="text" id="editarhorario" OnKeyPress="formatar(this, '##:##')"  onBlur="return doHorario(this.id,this.value);"  maxlength="5"  value="<?= $horario ?>"   /></div>
+                        </div></div></center>
+                    
+                        <strong>Descrição:</strong> 
+                        <input name="editarnome" type="text" id="editarnome" size="50"  value="<?= $exibe['nome'] ?>" />
+                        
+                        <br /><br />
+                        
+                        <input type="submit" class="bt_CancelarTarefa" value="Cancelar" />
+                    
+                        <input type="submit" class="bt_SalvaTarefa" value="Alterar" />
+
                 </div>
             </div>
-        </div>';
+        </div>
+
+<?php
+        
+      
+    }
+    
+	
+    public function salvar($mudanca) {
+        
+            $dadosGeral = base64_decode($mudanca);
+            
+            /* realiza separação das variaveis */
+            $dadosArray = explode('#@', $dadosGeral);
+
+            $id = base64_decode($dadosArray[1]);
+            $dataNormal = base64_decode($dadosArray[2]);
+        
+            /* verifica se campo data não está em branco e realiza conversão da data antes de inserir na base de dados */
+            if($dataNormal != ''){
+            $dataArray = explode('/', $dataNormal);
+            $data = $dataArray[2] . '-' . $dataArray[1]  . '-' . $dataArray[0]  ;
+            } else {
+            $data = '';
+            }
+        
+            $horario = base64_decode($dadosArray[3]);
+            $nome = base64_decode($dadosArray[4]);
+        
+            /* realiza conversão da data antes exibir */
+            $dataArray = explode('-', $data);
+            $exibirData = $dataArray[2] . '/' . $dataArray[1]  . '/' . $dataArray[0]  ;
+            
+            
+            /* realiza conversão da data antes exibir */
+            $horarioArray = explode(':', $horario);
+            $exibirHorario = $horarioArray[0]  . ':' . $horarioArray[1] ;
+            
+      echo '
+        <div class="div-table">
+			<div class="div-table-row">
+				<div class="div-table-cell">';
+        
+            echo "Tarefa #" . $id . " alterada com Sucesso<BR>".  utf8_encode($nome) . " - No dia " . $exibirData . " as " . $exibirHorario;
+            
+        echo '</div></div></div>';
+        
+            /* conecta ao MySQL pelo Model e realiza a inclusão da tarefa  */
+            $model = new Model();
+            $model->alterarDados($id, $data,$horario,$nome);
+        
+    
         
     }
-	
-    /* função que grava as alterações da tarefa */
-    public function salvarTarefa () {
-		 
-        echo '
-        
-         <div class="div-table">
-            <div class="div-table-row">
-                <div class="div-table-cell"><h3>Nada foi salvo</h3>
-                </div>
-            </div>
-        </div>';
-     
-    }	
     
     public function excluir($id) {
     		
@@ -306,6 +374,8 @@ class Controller {
                 </div>
             </div>
         </div>';
+        
+        
     }
     
 }

@@ -80,3 +80,15 @@ background-size:100% 100%;
   font-size:18px;
   font-weight:normal;
 }
+
+.bt_SalvaTarefa{
+  background-color:green; 
+  font-size:18px;
+  font-weight:normal;
+}
+.bt_CancelarTarefa{
+  background-color:yellow; 
+  font-size:18px;
+  font-weight:normal;
+}
+
