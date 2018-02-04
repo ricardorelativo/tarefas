@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="CSS/style.css">
     <script src="Script/jquery.js"></script>
     <script src="Script/menu.js"></script>
-    <script src="Script/formulario.js"></script>
 </head>
 <body>
 <div id="div_tarefas">

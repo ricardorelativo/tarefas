@@ -11,6 +11,10 @@
             $("#bt_Listar").click(function(){
                 $("#div_tarefas").load("index.php?operacao=Listar");
             });
+
+            $(".bt_NovaTarefa").click(function(){
+                $("#div_tarefas").load("index.php?operacao=Adicionar&acao=nova");
+            });
     
             $(".bt_SalvaTarefa").click(function(){
                 $("#div_tarefas").load("index.php?operacao=Listar&acao=salvar");
@@ -18,3 +22,21 @@
 
            
     });
+
+    /* função para pegar ID que deseja editar */
+    function alterar(id){
+               
+            $(document).ready(function() {
+                $("#div_tarefas").load("index.php?operacao=Listar&acao=editar&id=" + id);  
+            });
+               
+    }
+
+    /* função para pegar ID que deseja excluir */
+    function apagar(id){
+               
+            $(document).ready(function() {
+                $("#div_tarefas").load("index.php?operacao=Listar&acao=excluir&id=" + id);  
+            });
+               
+    }

@@ -81,100 +81,45 @@ class Controller {
 	
     public function adicionar() {
       
- echo '   
-        <div class="div-table">
-            <div class="div-table-row">
-                <div class="div-table-cell">
-                
-                    <div id="situacao"></div>                        
-                        
-                    <center><div class="div-table" style="width:  50%;">
-                    <div class="div-table-row">
-                        <div class="div-table-cell"><strong>Dia:</strong>
-                        <input name="novadata" type="date" id="novadata" /></div>
+	  echo "
+         <div class='div-table'>
+            <div class='div-table-row'>
+                <div class='div-table-cell' >
+        
+                    <label>Dia:</label>
+                    <input type='date' name='data' value=''><BR>
+                    <label>Horário:</label>
+                    <input type='time' name='horario' value=''><BR>
+                    <label>Descrição:</label>
+                    <input type='text' name='nome' value=''><BR>
 
-                        <div class="div-table-cell"><strong>Horário:</strong>
-                        <input name="novohorario" type="time" id="novohorario" /></div>
-                        </div></div></center>
-                    
-                        <strong>Descrição:</strong> 
-                        <input name="novonome" type="text" id="novonome" size="50" />
-                        
-                        <br /><br />
-                        
-                        <input type="submit" class="bt_NovaTarefa" value="Adicionar" />
-
+                    <button type='submit' class='bt_NovaTarefa'>Adicionar</button>
+        
                 </div>
             </div>
-        </div>';
+        </div>";
 		
     }	
 	
     /* função que grava uma nova tarefa */
- public function adicionarTarefa ($codigoEnc) {
+    public function adicionarTarefa () {
 		 
-            $dadosGeral = base64_decode($codigoEnc);
-            
-            /* realiza separação das variaveis */
-            $dadosArray = explode('#@', $dadosGeral);
-
-            $data = $dadosArray[1];
-            $horario = $dadosArray[2];
-            $nome = base64_decode($dadosArray[3]);
-        
-    
-        // verifica se o data foi escolhida
-        if (empty($data) || $data == '') {
-            echo "Você deve escoler uma data";
-        
-        /* exibe formulario para adicionar */
-        $controller = new Controller();
-		$controller->adicionar(); 
-        
-        // verifica se a mensagem foi digitada
-        } elseif (empty($horario) || $horario == '') {
-            echo "Você deve escoler um horário";
-        
-        /* exibe formulario para adicionar */
-        $controller = new Controller();
-		$controller->adicionar(); 
-            
-        // verifica se a mensagem foi digitada
-        } elseif (empty($nome) || $nome == '') {
-            echo "Você deve preencher a descrição";
-        
-            
-        /* exibe formulario para adicionar */
-        $controller = new Controller();
-		$controller->adicionar(); 
-            
-        // verifica se a mensagem nao ultrapassa o limite de caracteres
-        } elseif (strlen($nome) > 250) {
-            echo "A descrição deve ter no máximo 250 caracteres";
-        
-        
-        /* exibe formulario para adicionar */
-        $controller = new Controller();
-		$controller->adicionar(); 
-            
-        // Se não houver nenhum erro
-        } else {
-            
-            echo "Tarefa adicionada com Sucesso<BR>(Dia " . $data . " as " . $horario . " - ".  utf8_encode($nome) . ")";
-            
-        /* conecta ao MySQL pelo Model e realiza a inclusão da tarefa  */
-        $model = new Model();
-        $model->adicionarDados($data,$horario,$nome);
-            
-        }
+        echo '
+         <div class="div-table">
+            <div class="div-table-row">
+                <div class="div-table-cell"><h3>Nada foi adicionado</h3>
+                </div>
+            </div>
+        </div>';
      
-    }		
+    }	
 	
     public function listar() {
 		
         /* conecta ao MySQL pelo Model e realiza a consulta das tarefas */
         $model = new Model();
-        $sql = $model->listarTarefas();
+        $consulta = "SELECT * FROM tarefas"; 
+        $sql = mysqli_query(($model->conectar()), $consulta);
         
         echo '<div class="div-table">
                 <div class="div-table-row div-table-head">
@@ -268,15 +213,11 @@ class Controller {
     
     public function excluir($id) {
     		
-        /* conecta ao MySQL pelo Model e realiza a exclusão da tarefa  */
-        $model = new Model();
-        $model->excluirDados($id);
-            
         echo '
         <div class="div-table">
             <div class="div-table-row">
                 <div class="div-table-cell">
-                <h3>Tarefa de código #' . $id . ' foi excluida</h3>
+                <h3>Tarefa (' . $id . ') será excluida em breve</h3>
                 </div>
             </div>
         </div>';
