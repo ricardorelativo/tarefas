@@ -28,9 +28,13 @@
             
         } else {
             
-            /* caso não exista a operação, exibe a view do menu */    
+            /* caso não exista a operação, exibe a view home */  
+            $pagina_inicial = 'home';
+            
             $view = new View();
-            $view->pagina('home'); 
+            $view->titulo($pagina_inicial); 
+            $view->botoes($pagina_inicial); 
+            $view->pagina($pagina_inicial); 
         
 		}
 		

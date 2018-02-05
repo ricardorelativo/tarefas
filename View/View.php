@@ -3,6 +3,45 @@
 class View {
   
     /* função para exibir tela de abertura */
+    public function titulo($msg) {
+        echo'<div class="div_titulo" >
+            <h3>Lista de Tarefas'. $msg .'</h3>
+            </div>';
+        
+    }
+    
+    /* função para criar os botões de navegação */
+    public function botoes($tipo) {
+        
+        /* personalizando o msg sistema personalização das cores dos botões*/
+        switch($tipo)   {
+            case "listar":
+                    $home = '';
+                    $tarefa = ' ativo';
+                    $nova = '';
+            break;
+            case "adicionar":
+                    $home = '';
+                    $tarefa = '';
+                    $nova = ' ativo';
+            break;
+            default: 
+                    $home = ' ativo';
+                    $tarefa = '';
+                    $nova = '';
+            break;
+        }
+        
+        /* exibe titulo e lista dos botões */
+        echo '  <div class="div_navegacao" >
+                <div id="bt_Geral" class="botoes' . $home . '" >Página Inicial</div>
+                <div id="bt_Listar" class="botoes' . $tarefa . '" >Listar das Tarefas</div>
+                <div id="bt_Adicionar" class="botoes' . $nova . '" >Adicionar Tarefa</div>
+                </div>';
+        
+    }
+    
+    /* função para exibir tela de abertura */
     public function pagina($tipo) {
         
         if ($tipo=='listar'){
@@ -10,29 +49,27 @@ class View {
             /* verifica se existe as variáveis e se a ação é de excluir */
             if((isset($_GET['acao']))  && (isset($_GET['id'])) && ($_GET['acao']=='excluir')){
 
+            
+            /* exibe formulario para adicionar */
             $controller = new Controller();
-            $controller->botoes($tipo); 
             $controller->excluir($_GET['id']); 
 
             /* verifica se existe as variáveis e se a ação é de editar */
             } elseif ((isset($_GET['acao'])) && (isset($_GET['id'])) && ($_GET['acao']=='editar')){
 
             $controller = new Controller();
-            $controller->botoes($tipo); 
             $controller->editar($_GET['id']); 
 
             /* verifica se existe as variáveis e se a ação é salvar as alterações */
             } elseif ((isset($_GET['acao'])) && (isset($_GET['mudanca'])) && ($_GET['acao']=='editar')){
 
             $controller = new Controller();
-            $controller->botoes($tipo); 
             $controller->salvar($_GET['mudanca']); 
 
             /* caso não tenha sido validado nenhum dos critérios acima */
             } else {
 
             $controller = new Controller();
-            $controller->botoes($tipo); 
             $controller->listar(); 
 
             }
@@ -48,26 +85,18 @@ class View {
 
             /* exibe formulario para adicionar */
             $controller = new Controller();
-            $controller->botoes($tipo); 
             $controller->adicionarNovaTarefa($dadosEnc); 
 
 
             } else {
-
-            /* exibe formulario para adicionar */
-            $controller = new Controller();
-            $controller->botoes($tipo); 
                 
             /* exibe formulario para adicionar */
             $view = new View();
             $view->formulario('adicionar',''); 
+                
             }
         
         } else {
-            
-       /* consulta as operações do Controller */
-       $controller = new Controller();
-       $controller->botoes($tipo); 
         
         echo '<div class="div_conteudo">
                 <div class="div_msg" >

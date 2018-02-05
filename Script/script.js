@@ -6,15 +6,15 @@
             });
 
             $("#bt_Adicionar").click(function(){
-                $("#div_tarefas").load("main.php?operacao=Adicionar");
+                $("#div_tarefas").load("main.php?operacao=adicionar");
             });
 
             $("#bt_Listar").click(function(){
-                $("#div_tarefas").load("main.php?operacao=Listar");
+                $("#div_tarefas").load("main.php?operacao=listar");
             });
 
             $(".bt_CancelarTarefa").click(function(){
-                $("#div_tarefas").load("main.php?operacao=Listar");
+                $("#div_tarefas").load("main.php?operacao=listar");
             });
 
             
@@ -32,7 +32,7 @@
                 var enc = window.btoa('#@'+editarid+'#@'+editardata+'#@'+editarhorario+'#@'+editarnome+'#@');
              
             /* envia dados pela URL para que possa ser pego pelo GET editar*/
-            $("#div_tarefas").load('main.php?operacao=Listar&acao=editar&mudanca='+enc);
+            $("#div_tarefas").load('main.php?operacao=listar&acao=editar&mudanca='+enc);
                 
                 
             });
@@ -51,7 +51,7 @@
                 var enc = window.btoa('#@'+novadata+'#@'+novohorario+'#@'+novonome+'#@');
              
             /* envia dados pela URL para que possa ser pego posteriormente pelo GET incluir*/
-            $("#div_tarefas").load('main.php?operacao=Adicionar&acao=nova&incluir='+enc);
+            $("#div_tarefas").load('main.php?operacao=adicionar&acao=nova&incluir='+enc);
                                    
                 
                 
@@ -65,7 +65,7 @@
     function alterar(id){
                
             $(document).ready(function() {
-                $("#div_tarefas").load("main.php?operacao=Listar&acao=editar&id=" + id);  
+                $("#div_tarefas").load("main.php?operacao=listar&acao=editar&id=" + id);  
             });
                
     }
@@ -74,7 +74,7 @@
     function apagar(id){
                
             $(document).ready(function() {
-                $("#div_tarefas").load("main.php?operacao=Listar&acao=excluir&id=" + id);  
+                $("#div_tarefas").load("main.php?operacao=listar&acao=excluir&id=" + id);  
             });
                
     }

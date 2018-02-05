@@ -2,64 +2,29 @@
 
 class Controller {
     
-    /* função para criar os botões de navegação */
-    public function botoes($tipo) {
-        
-        /* personalizando o msg sistema personalização das cores dos botões*/
-        switch($tipo)   {
-    
-            case "listar":
-                    $msg = ' - Listar';
-                    $home = '';
-                    $tarefa = ' ativo';
-                    $nova = '';
-            break;
-            case "adicionar":
-                    $msg = ' - Nova';
-                    $home = '';
-                    $tarefa = '';
-                    $nova = ' ativo';
-            break;
-            default: 
-
-                    $msg = ' - Home';
-                    $home = ' ativo';
-                    $tarefa = '';
-                    $nova = '';
-
-            break;
-        }
-        
-        /* exibe titulo e lista dos botões */
-        echo '
-         <div class="div_titulo" >
-            <h3>Lista de Tarefas'. $msg .'</h3>
-        </div>
-         <div class="div_navegacao" >
-                <div id="bt_Geral" class="botoes' . $home . '" >Página Inicial</div>
-                <div id="bt_Listar" class="botoes' . $tarefa . '" >Listar das Tarefas</div>
-                <div id="bt_Adicionar" class="botoes' . $nova . '" >Adicionar Tarefa</div>
-        </div>
-        ';
-        
-    }
 	
 	public function navegacao($operacao) {
         
         switch($operacao)   {
     
-            case "Listar":
+            case "listar":
             $view = new View();
-            $view->pagina('listar'); 
+            $view->titulo(' - Listar'); 
+            $view->botoes($operacao); 
+            $view->pagina($operacao); 
             break;
 
-            case "Adicionar":
+            case "adicionar":
             $view = new View();
-            $view->pagina('adicionar'); 
+            $view->titulo(' - Adicionar'); 
+            $view->botoes($operacao); 
+            $view->pagina($operacao); 
             break;  
 
             default: 
             $view = new View();
+            $view->titulo(' - Home'); 
+            $view->botoes('home'); 
             $view->pagina('home'); 
             break;
                 
@@ -134,6 +99,10 @@ class Controller {
         $model = new Model();
         $model->adicionarDados($inserirdata,$pegahorario,$nome);
             
+        /* exibe formulario para adicionar */
+        $view = new View();
+		$view->formulario('adicionar',''); 
+            
         }
      
         
@@ -174,7 +143,7 @@ class Controller {
             
             ?>
                                
-                                <div class="div-table-row">
+                                <div class="div-table-row div-table-row-list">
                                 <div class="div-table-cell"><?= $linhas['id'] ?></div>
                                 <div class="div-table-cell"><?= $data ?></div>
                                 <div class="div-table-cell"><?= $horario ?></div>
@@ -274,15 +243,18 @@ class Controller {
             $dataArray = explode('/', $pegadata);
             $data = $dataArray[2] . '-' . $dataArray[1]  . '-' . $dataArray[0]  ;
             
-            echo '<div class="div_msg" ><h3>
-            Tarefa #' . $id . ' alterada com Sucesso.
-            <BR><BR>'.  utf8_encode($nome) . ' - No dia ' . $pegadata . ' às ' . $pegahorario . '
-            </h3></div>';
-        
             /* conecta ao MySQL pelo Model e realiza a inclusão da tarefa  */
             $model = new Model();
             $model->alterarDados($id, $data,$pegahorario,$nome);
+            
+
+            
+        /* exibe mensagem confirmando as alterações */
+        echo '<div class="div_msg" ><h3>Tarefa #' . $id . ' alterada com Sucesso.</h3></div>';
         
+        /* exibe formulario de alteração novamente */
+        $controller = new Controller();
+		$controller->editar($id); 
             
         }
         

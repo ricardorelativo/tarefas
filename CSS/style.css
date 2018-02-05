@@ -97,8 +97,8 @@ html, body {
 /* personalização das divs como tabelas */
 .div-table{
     display: table !important;
-    width: 90%;
-    margin: 20px 0;
+    width: 100%;
+    margin: 0;
     padding: 0;
     background-color: #fff;
     height: auto !important;
@@ -112,7 +112,9 @@ html, body {
     height: 40px;
     line-height: 40px;
 }
-.div-table-row:hover{ background-color: #F5F5F5; }
+.div-table-row:hover{ 
+    background-color: rgba(255, 177, 0, 0.5); 
+}
 .div-table-row .div-table-cell:first-child{ border-left: 1px solid #E1E1E1; }
 .div-table-cell{
     display: table-cell !important;
@@ -136,4 +138,6 @@ html, body {
 .div-table-head .div-table-cell{ border-top: 1px solid #E1E1E1 !important; }
 .div-table-row-list .div-table-cell{ border: none; }
 .div-table-row-list{ border: none; }
-.div-table-row-list .div-table-cell:first-child{ border-left: none; }
+.div-table-row-list .div-table-cell:first-child{
+    border-left: none; 
+}
