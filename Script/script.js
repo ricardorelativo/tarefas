@@ -1,8 +1,11 @@
     $(document).ready(function() {
             
+        /* botões principais do sistema, realiza verificação
+        de qual botão foi clicado através da ID e redireciona a 
+        página dentro da DIV tarefas */
         
             $("#bt_Geral").click(function(){
-                $("#div_tarefas").load("main.php");
+                $("#div_tarefas").load("main.php?operacao=home");
             });
 
             $("#bt_Adicionar").click(function(){
@@ -17,10 +20,37 @@
                 $("#div_tarefas").load("main.php?operacao=listar");
             });
 
-            
-            $(".bt_SalvaTarefa").click(function(){
-
+        /* botões para adicionar uma tarefa, pega os valores dos campos
+        redireciona uma nova página para dentro da DIV tarefas
+        com os valores dos campos criptografados */
+        
+            $(".bt_NovaTarefa").click(function(){
+            /* cria um atraso na operação 
+            para otimizar a busca dos values */
+            setTimeout(function(){
+                /* pegar valores do formulário com JS  e criptografar as informações*/
+                 var novadata = window.btoa($("input[name=novadata]").val());
+                 var novohorario = window.btoa($("input[name=novohorario]").val());
+                 var novonome = window.btoa($("input[name=novonome]").val());
+           
                 
+                /* criptografar informações com BASE64 */
+                var enc = window.btoa('#@'+novadata+'#@'+novohorario+'#@'+novonome+'#@');
+             
+                
+                /* envia dados pela URL para que possa ser pego posteriormente pelo GET incluir*/
+                $("#div_tarefas").load('main.php?operacao=adicionar&acao=nova&incluir='+enc);
+            },100);
+            });
+        
+        /* botões para salvar uma tarefa, pega os valores dos campos
+        redireciona uma nova página para dentro da DIV tarefas
+        com os valores dos campos criptografados */
+        
+            $(".bt_SalvaTarefa").click(function(){
+            /* cria um atraso na operação
+            para otimizar a busca dos values */
+            setTimeout(function(){
                 /* pegar valores do formulário com JS e criptografar as informações*/
                  var editarid = window.btoa($("input[name=editarid]").val());
                  var editardata = window.btoa($("input[name=editardata]").val());
@@ -34,36 +64,15 @@
             /* envia dados pela URL para que possa ser pego pelo GET editar*/
             $("#div_tarefas").load('main.php?operacao=listar&acao=editar&mudanca='+enc);
                 
-                
+            },100);                
             });
     
-    
-    			/* função para processar o cadastro do nova tarefa */
-            $(".bt_NovaTarefa").click(function(){
-    
-                /* pegar valores do formulário com JS  e criptografar as informações*/
-                 var novadata = window.btoa($("input[name=novadata]").val());
-                 var novohorario = window.btoa($("input[name=novohorario]").val());
-                 var novonome = window.btoa($("input[name=novonome]").val());
-           
-                
-                /* criptografar informações com BASE64 */
-                var enc = window.btoa('#@'+novadata+'#@'+novohorario+'#@'+novonome+'#@');
-             
-            /* envia dados pela URL para que possa ser pego posteriormente pelo GET incluir*/
-            $("#div_tarefas").load('main.php?operacao=adicionar&acao=nova&incluir='+enc);
-                                   
-                
-                
-            });
-        
            
     });
 
 
     /* função para pegar ID que deseja editar */
     function alterar(id){
-               
             $(document).ready(function() {
                 $("#div_tarefas").load("main.php?operacao=listar&acao=editar&id=" + id);  
             });
@@ -72,14 +81,14 @@
 
     /* função para pegar ID que deseja excluir */
     function apagar(id){
-               
             $(document).ready(function() {
                 $("#div_tarefas").load("main.php?operacao=listar&acao=excluir&id=" + id);  
             });
                
     }
 
-    /* formatar entrada do campo input */
+    /* formatar entrada do campo input 
+    através de uma mascara simples */
     function formatar(src, mask)
     {
     var i = src.value.length;

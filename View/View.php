@@ -48,7 +48,6 @@ class View {
             
             /* verifica se existe as variáveis e se a ação é de excluir */
             if((isset($_GET['acao']))  && (isset($_GET['id'])) && ($_GET['acao']=='excluir')){
-
             
             /* exibe formulario para adicionar */
             $controller = new Controller();
@@ -68,10 +67,12 @@ class View {
 
             /* caso não tenha sido validado nenhum dos critérios acima */
             } else {
-
+                
             $controller = new Controller();
-            $controller->listar(); 
-
+            $controller->listar('hoje'); 
+            $controller->listar('futuras'); 
+            $controller->listar('antigas'); 
+                
             }
             
         } elseif ($tipo=='adicionar'){ 
@@ -112,9 +113,8 @@ class View {
     
     public function formulario($tipo,$operacao) {
 		
-
+        /* codigo para criação do formulário de adicionar tarefas */     
         if ($tipo=='adicionar'){
-         
 ?>
 
         <div class="div_conteudo"><div class="div_msg" >
@@ -140,7 +140,7 @@ class View {
 
         </div></div>
                             
-<?php            
+<?php   /* codigo para criação do formulário de editar tarefas */         
         } elseif ($tipo=='editar'){ 
             
          $exibe = mysqli_fetch_assoc($operacao);
@@ -182,7 +182,10 @@ class View {
            </div></div>
 
 <?php
-        
+        /* caso não seja identificado o formulário corretamente */
+        } else {
+            echo '<div class="div_conteudo"><div class="div_msg" >
+            <h3>Erro: Não foi possivel localizar o formulário '.$tipo.'</b>.</h3></div></div>';
         }
         
 	}

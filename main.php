@@ -32,7 +32,7 @@
             $pagina_inicial = 'home';
             
             $view = new View();
-            $view->titulo($pagina_inicial); 
+            $view->titulo(' - Bem Vindos'); 
             $view->botoes($pagina_inicial); 
             $view->pagina($pagina_inicial); 
         

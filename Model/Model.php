@@ -14,15 +14,51 @@ class Model {
         return $con;  
     }
           
-    public function listarTarefas(){
+    public function listarTarefas($selecao){
         
+        /* define dia atual */
+        date_default_timezone_set('America/Sao_Paulo');
+        $date = date('Y-m-d');
+        $horario = date('H:i');
+        
+        switch($selecao)   {
+    
+            case "futuras":
+                
+                $consulta = "SELECT * FROM tarefas WHERE data > '" . $date . "' ORDER BY data ASC, horario ASC"; 
+                          
+            break;
+
+            case "antigas":
+                
+                $consulta = "SELECT * FROM tarefas WHERE (data = '" . $date . "' AND  horario <= '" . $horario . "') OR data < '" . $date . "' ORDER BY data ASC, horario ASC"; 
+                        
+            break;  
+                
+            case "hoje":
+                
+                $consulta = "SELECT * FROM tarefas WHERE data = '" . $date . "' AND  horario >= '" . $horario . "' ORDER BY data ASC, horario ASC"; 
+  
+            break;  
+
+            default: 
+                
+                $consulta = "SELECT * FROM tarefas ORDER BY data ASC, horario ASC"; 
+            
+            break;
+                
+        }
+            
+
         // conectando base dados e retornar a query
         $model = new Model();
         $conexao = $model->conectar();	
-        $consulta = "SELECT * FROM tarefas ORDER BY data ASC, horario ASC"; 
         $sql = mysqli_query($conexao, $consulta);
         
         return $sql;
+        
+        
+        
     }
     
     public function excluirDados($id) {

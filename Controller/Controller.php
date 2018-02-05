@@ -108,13 +108,47 @@ class Controller {
         
     }	
 	
-    public function listar() {
+    public function listar($opcao) {
 		
+        switch($opcao)   {
+    
+            case "futuras":
+                
+                $lista = 'futuras';
+                $msg_lista = 'Tarefas Futuras';
+                    
+            break;
+
+            case "antigas":
+                
+                $lista = 'antigas';
+                $msg_lista = 'Tarefas Antigas';
+            
+            break;  
+                
+            case "hoje":
+                
+                $lista = 'hoje';
+                $msg_lista = 'Tarefas de Hoje';
+            
+            break;  
+
+            default: 
+                
+                $lista = 'geral';
+                $msg_lista = 'Todas as Tarefas';
+            
+            break;
+                
+        }
+        
         /* conecta ao MySQL pelo Model e realiza a consulta das tarefas */
         $model = new Model();
-        $sql = $model->listarTarefas();
+        $sql = $model->listarTarefas($lista);
         
-        echo '<div class="div_conteudo">';
+       echo '<div class="div_conteudo" >';
+        
+        echo '<h3> ' . $msg_lista . ' </h3>';
         
         /* verifica se há regisatros no sistyema */
         if(mysqli_num_rows($sql)>0){
@@ -154,20 +188,22 @@ class Controller {
                                 <div class="div-table-cell">
                                 <input TYPE="BUTTON" NAME="submit" class="bt_ListarExcluir" value="Excluir" onclick="apagar('<?= $linhas['id'] ?>')" >
                                 </div>
-
                                 </div>
 
             <?php
             /* termino do loop */       
             endwhile;   
+        /* finaliza div tabela */
+        echo '</div>';
                         
         } else {
             /* caso não tenha registro no banco de dados */
-                    echo '<div class="div_msg" ><h3>Não há registrados no sistema.</h3></div>';
+                    echo '<h3>Não há registrados no sistema.</h3>';
         }
         
         /* finaliza div conteudo */
         echo '</div>';
+        
 	}
 	
     public function editar($id) {
