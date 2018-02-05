@@ -9,11 +9,6 @@
     <!-- link do style que define laytou do sistema -->
     <link rel="stylesheet" href="CSS/style.css">
     
-    <!-- link da biblioteca jQuery -->
-    <script src="Script/jquery.js"></script>
-    
-    <!-- link do conteúdo  JavaScript do sistema -->
-    <script src="Script/script.js"></script>
     
 </head>
 <body>

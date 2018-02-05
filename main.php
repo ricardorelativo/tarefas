@@ -1,9 +1,4 @@
-    <!-- define o padrão de acentuação do sistema -->
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    
-    <!-- link do style que define laytou do sistema -->
-    <link rel="stylesheet" href="CSS/style.css">
-    
+
     <!-- link da biblioteca jQuery -->
     <script src="Script/jquery.js"></script>
     

@@ -102,6 +102,7 @@ class View {
         echo '<div class="div_conteudo">
                 <div class="div_msg" >
 				<h3>Sistema de Gerenciamento de Tarefas</h3>
+                <img class="Em Desenvolvimento" src="CSS/dev.gif" alt="Em Desenvolvimento" width="50%" height="auto" style="margin: 25px;">
 				<p>Desenvolvido por <b>Ricardo Felisbino</b></p>
                 </div>
 			</div>';
