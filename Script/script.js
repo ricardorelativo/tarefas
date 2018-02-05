@@ -44,7 +44,6 @@
                 /* pegar valores do formulário com JS  e criptografar as informações*/
                  var novadata = window.btoa($("input[name=novadata]").val());
                  var novohorario = window.btoa($("input[name=novohorario]").val());
-				 /* criptografar campo nome */
                  var novonome = window.btoa($("input[name=novonome]").val());
            
                 

@@ -30,7 +30,7 @@ class Controller {
             break;
         }
         
-        /* exibe lista dos botões */
+        /* exibe titulo e lista dos botões */
         echo '
          <div class="div_titulo" >
             <h3>Lista de Tarefas'. $msg .'</h3>
@@ -49,24 +49,18 @@ class Controller {
         switch($operacao)   {
     
             case "Listar":
-
             $view = new View();
             $view->pagina('listar'); 
-
             break;
 
             case "Adicionar":
-
             $view = new View();
             $view->pagina('adicionar'); 
-
             break;  
 
             default: 
-
             $view = new View();
-            $view->home('geral'); 
-
+            $view->pagina('home'); 
             break;
                 
         }
@@ -74,76 +68,35 @@ class Controller {
         
     }
 	
-    public function adicionar() {
-      		
- ?>
-        <div class="div_conteudo"><div class="div_msg" >
-            
-          <h3>Cadastro Nova Tarefa</h3>
-            
-                        <strong>Dia:</strong>
-                        <input name="novadata" type="text" id="novadata" OnKeyPress="formatar(this, '##/##/####')" onBlur="return doDate(this.id,this.value, 4);" maxlength="10"  />
-                 
-                        <strong>Horário:</strong>
-                        <input name="novohorario" type="text" id="novohorario" OnKeyPress="formatar(this, '##:##')"  onBlur="return doHorario(this.id,this.value);"  maxlength="5"   />
-                 
-                        <br /><br />
-                 
-                        <strong>Descrição:</strong> 
-                        <input name="novonome" type="text" id="novonome"  onBlur="return doNome(this.id,this.value);"  maxlength="200"   size="50" />
-                        
-                        <br /><br />
-                    
-                        <input type="submit" class="bt_CancelarTarefa" value="Cancelar" />
-                        
-                        <input type="submit" class="bt_NovaTarefa" value="Adicionar" />
-
-            </div></div>
-
-<?php
-            
-            
-    }	
-	
     /* função que grava uma nova tarefa */
-    public function adicionarTarefa ($codigoEnc) {
+    public function adicionarNovaTarefa ($codigoEnc) {
 		 
             $dadosGeral = base64_decode($codigoEnc);
             
             /* realiza separação das variaveis */
             $dadosArray = explode('#@', $dadosGeral);
-
-            $dataNormal = base64_decode($dadosArray[1]);
-        
-            /* verifica se campo data não está em branco e realiza conversão da data antes de inserir na base de dados */
-            if($dataNormal != ''){
-            $dataArray = explode('/', $dataNormal);
-            $data = $dataArray[2] . '-' . $dataArray[1]  . '-' . $dataArray[0]  ;
-            } else {
-            $data = '';
-            }
-        
-            $horario = base64_decode($dadosArray[2]);
+            $pegadata = base64_decode($dadosArray[1]);
+            $pegahorario = base64_decode($dadosArray[2]);
             $nome = base64_decode($dadosArray[3]);
         
     
         // verifica se o data foi escolhida
-        if (empty($data) || $data == '') {
+        if (empty($pegadata) || $pegadata == '') {
             echo '<div class="div_msg" ><h3>';
             echo "Você deve escoler uma data";
             echo '</h3></div>';
         /* exibe formulario para adicionar */
-        $controller = new Controller();
-		$controller->adicionar(); 
+        $view = new View();
+		$view->formulario('adicionar',''); 
         
         // verifica se a mensagem foi digitada
-        } elseif (empty($horario) || $horario == '') {
+        } elseif (empty($pegahorario) || $pegahorario == '') {
             echo '<div class="div_msg" ><h3>';
             echo "Você deve escoler um horário";
             echo '</h3></div>';
         /* exibe formulario para adicionar */
-        $controller = new Controller();
-		$controller->adicionar(); 
+        $view = new View();
+		$view->formulario('adicionar',''); 
             
         // verifica se a mensagem foi digitada
         } elseif (empty($nome) || $nome == '') {
@@ -152,8 +105,8 @@ class Controller {
             echo '</h3></div>';
             
         /* exibe formulario para adicionar */
-        $controller = new Controller();
-		$controller->adicionar(); 
+        $view = new View();
+		$view->formulario('adicionar',''); 
             
         // verifica se a mensagem nao ultrapassa o limite de caracteres
         } elseif (strlen($nome) > 200) {
@@ -162,29 +115,24 @@ class Controller {
             echo '</h3></div>';
         
         /* exibe formulario para adicionar */
-        $controller = new Controller();
-		$controller->adicionar(); 
+        $view = new View();
+		$view->formulario('adicionar',''); 
             
         // Se não houver nenhum erro
         } else {
             
             /* realiza conversão da data antes exibir */
-            $dataArray = explode('-', $data);
-            $exibirData = $dataArray[2] . '/' . $dataArray[1]  . '/' . $dataArray[0]  ;
-            
-            
-            /* realiza conversão da data antes exibir */
-            $horarioArray = explode(':', $horario);
-            $exibirHorario = $horarioArray[0]  . ':' . $horarioArray[1] ;
+            $dataArray = explode('/', $pegadata);
+            $inserirdata = $dataArray[2] . '-' . $dataArray[1]  . '-' . $dataArray[0]  ;
             
             echo '<div class="div_msg" ><h3>';
             echo "Tarefa adicionada com Sucesso
-            <BR><BR>".  utf8_encode($nome) . " - No dia " . $exibirData . " às " . $exibirHorario;
+            <BR><BR>".  utf8_encode($nome) . " - No dia " . $pegadata . " às " . $pegahorario;
             echo '</h3></div>';
             
         /* conecta ao MySQL pelo Model e realiza a inclusão da tarefa  */
         $model = new Model();
-        $model->adicionarDados($data,$horario,$nome);
+        $model->adicionarDados($inserirdata,$pegahorario,$nome);
             
         }
      
@@ -258,45 +206,9 @@ class Controller {
         $model = new Model();
         $sql = $model->selecionarDados($id);
         
-        $exibe = mysqli_fetch_assoc($sql);
-    
-                    
-            /* realiza conversão da data antes exibir */
-            $dataArray = explode('-', $exibe['data']);
-            $data = $dataArray[2] . '/' . $dataArray[1]  . '/' . $dataArray[0]  ;
-            
-            /* realiza conversão da data antes exibir */
-            $horarioArray = explode(':', $exibe['horario']);
-            $horario = $horarioArray[0]  . ':' . $horarioArray[1] ;
-        
-  ?>
-       <div class="div_conteudo"><div class="div_msg" >
-           
-          <h3>Tarefa selecionada: <b>#<?= $id ?></b></h3>
+        $view = new View();
+		$view->formulario('editar',$sql); 
        
-                <input type="hidden" name="editarid"  id="editarid" value="<?= $id ?>">
-                        
-                <strong>Dia:</strong>
-                <input name="editardata" type="text" id="editardata" OnKeyPress="formatar(this, '##/##/####')" onBlur="return doDate(this.id,this.value, 4);" maxlength="10" value="<?= $data ?>" />
-           
-                <strong>Horário:</strong>
-                <input name="editarhorario" type="text" id="editarhorario" OnKeyPress="formatar(this, '##:##')"  onBlur="return doHorario(this.id,this.value);"  maxlength="5"  value="<?= $horario ?>"   />
-           
-                <br /><br />
-           
-                <strong>Descrição:</strong> 
-                <input name="editarnome" type="text" id="editarnome" size="50"  onBlur="return doNome(this.id,this.value);"  maxlength="200"   value="<?= utf8_encode($exibe['nome']) ?>" />
-                        
-                <br /><br />
-                        
-                <input type="submit" class="bt_CancelarTarefa" value="Cancelar" />
-                    
-                <input type="submit" class="bt_SalvaTarefa" value="Alterar" />
-
-           </div></div>
-
-<?php
-        
       
     }
     
