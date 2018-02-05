@@ -274,8 +274,10 @@ class Controller {
             $dataArray = explode('/', $pegadata);
             $data = $dataArray[2] . '-' . $dataArray[1]  . '-' . $dataArray[0]  ;
             
-            echo '<div class="div_msg" ><h3>Tarefa #' . $id . ' alterada com Sucesso.
-            <BR><BR>'.  utf8_encode($nome) . ' - No dia ' . $pegadata . ' às ' . $pegahorario . '</h3></div>';
+            echo '<div class="div_msg" ><h3>
+            Tarefa #' . $id . ' alterada com Sucesso.
+            <BR><BR>'.  utf8_encode($nome) . ' - No dia ' . $pegadata . ' às ' . $pegahorario . '
+            </h3></div>';
         
             /* conecta ao MySQL pelo Model e realiza a inclusão da tarefa  */
             $model = new Model();

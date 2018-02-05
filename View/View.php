@@ -81,21 +81,6 @@ class View {
     }
     
     
-    
-    public function salvar() {
-		
-		/* verifica existencia de ação */
-        if((isset($_GET['acao'])) && ($_GET['acao']=='salvar')){
-        
-    
-        /* exibe formulario para adicionar */
-        $controller = new Controller();
-		$controller->salvarTarefa(); 
-            
-        }
-        
-	}
-    
     public function formulario($tipo,$operacao) {
 		
 
