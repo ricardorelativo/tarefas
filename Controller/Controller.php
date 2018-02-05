@@ -5,43 +5,41 @@ class Controller {
     /* função para criar os botões de navegação */
     public function botoes($tipo) {
         
-        /* personalizando o msg sistema  
-		personalização das cores dos botões*/
+        /* personalizando o msg sistema personalização das cores dos botões*/
         switch($tipo)   {
     
-            case "tarefa":
+            case "listar":
                     $msg = ' - Listar';
-                    $cor1 = 'silver';
-                    $cor2 = 'blue';
-                    $cor3 = 'silver';
+                    $home = '';
+                    $tarefa = ' ativo';
+                    $nova = '';
             break;
-            case "nova":
+            case "adicionar":
                     $msg = ' - Nova';
-                    $cor1 = 'silver';
-                    $cor2 = 'silver';
-                    $cor3 = 'blue';
+                    $home = '';
+                    $tarefa = '';
+                    $nova = ' ativo';
             break;
             default: 
 
                     $msg = ' - Home';
-                    $cor1 = 'blue';
-                    $cor2 = 'silver';
-                    $cor3 = 'silver';
+                    $home = ' ativo';
+                    $tarefa = '';
+                    $nova = '';
 
             break;
         }
         
         /* exibe lista dos botões */
         echo '
-         <div class="div-table" style="background-color: rgba(255, 255, 255, 0.4);">
-            <div class="div-table-row" style="border:0;">
-                <div class="div-table-cell" style="border:0;"><h3>Lista de Tarefas'. $msg .'</h3>
-                </div>
-            </div>
+         <div class="div_titulo" >
+            <h3>Lista de Tarefas'. $msg .'</h3>
         </div>
-                <div id="bt_Geral" style="background-color: ' . $cor1 . '; border-radius: 50%; padding: 15px; display: inline;" >Página Inicial</div>
-                <div id="bt_Listar" style="background-color: ' . $cor2 . '; border-radius: 50%; padding: 15px; display: inline;" >Listar Tarefas</div>
-                <div id="bt_Adicionar" style="background-color: ' . $cor3 . '; border-radius: 50%; padding: 15px; display: inline;" >Adicionar Tarefa</div>
+         <div class="div_navegacao" >
+                <div id="bt_Geral" class="botoes' . $home . '" >Página Inicial</div>
+                <div id="bt_Listar" class="botoes' . $tarefa . '" >Listar das Tarefas</div>
+                <div id="bt_Adicionar" class="botoes' . $nova . '" >Adicionar Tarefa</div>
+        </div>
         ';
         
     }
@@ -53,24 +51,21 @@ class Controller {
             case "Listar":
 
             $view = new View();
-            $view->opcao('tarefa'); 
-            $view->listar(); 
+            $view->pagina('listar'); 
 
             break;
 
             case "Adicionar":
 
             $view = new View();
-            $view->opcao('nova'); 
-            $view->adicionar(); 
+            $view->pagina('adicionar'); 
 
             break;  
 
             default: 
 
             $view = new View();
-            $view->opcao('geral'); 
-            $view->home(); 
+            $view->home('geral'); 
 
             break;
                 
@@ -82,21 +77,20 @@ class Controller {
     public function adicionar() {
       		
  ?>
-        <div class="div-table">
-            <div class="div-table-row">
-                <div class="div-table-cell">
-                        
-                    <center><div class="div-table" style="width:  50%;">
-                    <div class="div-table-row">
-                        <div class="div-table-cell"><strong>Dia:</strong>
-                        <input name="novadata" type="text" id="novadata" OnKeyPress="formatar(this, '##/##/####')" onBlur="return doDate(this.id,this.value, 4);" maxlength="10"  /></div>
-
-                        <div class="div-table-cell"><strong>Horário:</strong>
-                        <input name="novohorario" type="text" id="novohorario" OnKeyPress="formatar(this, '##:##')"  onBlur="return doHorario(this.id,this.value);"  maxlength="5"   /></div>
-                        </div></div></center>
-                    
+        <div class="div_conteudo"><div class="div_msg" >
+            
+          <h3>Cadastro Nova Tarefa</h3>
+            
+                        <strong>Dia:</strong>
+                        <input name="novadata" type="text" id="novadata" OnKeyPress="formatar(this, '##/##/####')" onBlur="return doDate(this.id,this.value, 4);" maxlength="10"  />
+                 
+                        <strong>Horário:</strong>
+                        <input name="novohorario" type="text" id="novohorario" OnKeyPress="formatar(this, '##:##')"  onBlur="return doHorario(this.id,this.value);"  maxlength="5"   />
+                 
+                        <br /><br />
+                 
                         <strong>Descrição:</strong> 
-                        <input name="novonome" type="text" id="novonome" size="50" />
+                        <input name="novonome" type="text" id="novonome"  onBlur="return doNome(this.id,this.value);"  maxlength="200"   size="50" />
                         
                         <br /><br />
                     
@@ -104,9 +98,7 @@ class Controller {
                         
                         <input type="submit" class="bt_NovaTarefa" value="Adicionar" />
 
-                </div>
-            </div>
-        </div>
+            </div></div>
 
 <?php
             
@@ -137,33 +129,37 @@ class Controller {
     
         // verifica se o data foi escolhida
         if (empty($data) || $data == '') {
+            echo '<div class="div_msg" ><h3>';
             echo "Você deve escoler uma data";
-        
+            echo '</h3></div>';
         /* exibe formulario para adicionar */
         $controller = new Controller();
 		$controller->adicionar(); 
         
         // verifica se a mensagem foi digitada
         } elseif (empty($horario) || $horario == '') {
+            echo '<div class="div_msg" ><h3>';
             echo "Você deve escoler um horário";
-        
+            echo '</h3></div>';
         /* exibe formulario para adicionar */
         $controller = new Controller();
 		$controller->adicionar(); 
             
         // verifica se a mensagem foi digitada
         } elseif (empty($nome) || $nome == '') {
+            echo '<div class="div_msg" ><h3>';
             echo "Você deve preencher a descrição";
-        
+            echo '</h3></div>';
             
         /* exibe formulario para adicionar */
         $controller = new Controller();
 		$controller->adicionar(); 
             
         // verifica se a mensagem nao ultrapassa o limite de caracteres
-        } elseif (strlen($nome) > 250) {
+        } elseif (strlen($nome) > 200) {
+            echo '<div class="div_msg" ><h3>';
             echo "A descrição deve ter no máximo 250 caracteres";
-        
+            echo '</h3></div>';
         
         /* exibe formulario para adicionar */
         $controller = new Controller();
@@ -181,8 +177,10 @@ class Controller {
             $horarioArray = explode(':', $horario);
             $exibirHorario = $horarioArray[0]  . ':' . $horarioArray[1] ;
             
-            
-            echo "Tarefa adicionada com Sucesso<BR>".  utf8_encode($nome) . " - No dia " . $exibirData . " as " . $exibirHorario;
+            echo '<div class="div_msg" ><h3>';
+            echo "Tarefa adicionada com Sucesso
+            <BR><BR>".  utf8_encode($nome) . " - No dia " . $exibirData . " às " . $exibirHorario;
+            echo '</h3></div>';
             
         /* conecta ao MySQL pelo Model e realiza a inclusão da tarefa  */
         $model = new Model();
@@ -190,6 +188,7 @@ class Controller {
             
         }
      
+        
     }	
 	
     public function listar() {
@@ -198,7 +197,12 @@ class Controller {
         $model = new Model();
         $sql = $model->listarTarefas();
         
-        echo '<div class="div-table">
+        echo '<div class="div_conteudo">';
+        
+        /* verifica se há regisatros no sistyema */
+        if(mysqli_num_rows($sql)>0){
+            
+            echo '<div class="div-table">
                 <div class="div-table-row div-table-head">
                     <div class="div-table-cell">#</div>
                     <div class="div-table-cell">Dia</div>
@@ -207,9 +211,6 @@ class Controller {
                     <div class="div-table-cell">Editar</div>
                     <div class="div-table-cell">Excluir</div>
                 </div>';
-        
-        /* verifica se há regisatros no sistyema */
-        if(mysqli_num_rows($sql)>0){
             
             /* inicio do loop */    
             while($linhas = mysqli_fetch_assoc($sql)):
@@ -245,16 +246,11 @@ class Controller {
                         
         } else {
             /* caso não tenha registro no banco de dados */
-                    echo '
-                <div class="div-table">
-                    <div class="div-table-row">
-                        <div class="div-table-cell">Não há registrados no sistema
-                        </div>
-                    </div>
-                </div>';
+                    echo '<div class="div_msg" ><h3>Não há registrados no sistema.</h3></div>';
         }
-
         
+        /* finaliza div conteudo */
+        echo '</div>';
 	}
 	
     public function editar($id) {
@@ -273,39 +269,31 @@ class Controller {
             $horarioArray = explode(':', $exibe['horario']);
             $horario = $horarioArray[0]  . ':' . $horarioArray[1] ;
         
-    
   ?>
-        <div class="div-table">
-            <div class="div-table-row">
-                <div class="div-table-cell"><h3>Tarefa selecionada: <b>#<?= $id ?></b></h3></div>
-            </div>
-            
-            <div class="div-table-row">
-                <div class="div-table-cell">
+       <div class="div_conteudo"><div class="div_msg" >
+           
+          <h3>Tarefa selecionada: <b>#<?= $id ?></b></h3>
+       
+                <input type="hidden" name="editarid"  id="editarid" value="<?= $id ?>">
                         
-                    <center><div class="div-table" style="width:  50%;">
-                    <div class="div-table-row">
-                        <input type="hidden" name="editarid"  id="editarid" value="<?= $id ?>">
+                <strong>Dia:</strong>
+                <input name="editardata" type="text" id="editardata" OnKeyPress="formatar(this, '##/##/####')" onBlur="return doDate(this.id,this.value, 4);" maxlength="10" value="<?= $data ?>" />
+           
+                <strong>Horário:</strong>
+                <input name="editarhorario" type="text" id="editarhorario" OnKeyPress="formatar(this, '##:##')"  onBlur="return doHorario(this.id,this.value);"  maxlength="5"  value="<?= $horario ?>"   />
+           
+                <br /><br />
+           
+                <strong>Descrição:</strong> 
+                <input name="editarnome" type="text" id="editarnome" size="50"  onBlur="return doNome(this.id,this.value);"  maxlength="200"   value="<?= utf8_encode($exibe['nome']) ?>" />
                         
-                        <div class="div-table-cell"><strong>Dia:</strong>
-                        <input name="editardata" type="text" id="editardata" OnKeyPress="formatar(this, '##/##/####')" onBlur="return doDate(this.id,this.value, 4);" maxlength="10" value="<?= $data ?>" /></div>
-
-                        <div class="div-table-cell"><strong>Horário:</strong>
-                        <input name="editarhorario" type="text" id="editarhorario" OnKeyPress="formatar(this, '##:##')"  onBlur="return doHorario(this.id,this.value);"  maxlength="5"  value="<?= $horario ?>"   /></div>
-                        </div></div></center>
+                <br /><br />
+                        
+                <input type="submit" class="bt_CancelarTarefa" value="Cancelar" />
                     
-                        <strong>Descrição:</strong> 
-                        <input name="editarnome" type="text" id="editarnome" size="50"  value="<?= $exibe['nome'] ?>" />
-                        
-                        <br /><br />
-                        
-                        <input type="submit" class="bt_CancelarTarefa" value="Cancelar" />
-                    
-                        <input type="submit" class="bt_SalvaTarefa" value="Alterar" />
+                <input type="submit" class="bt_SalvaTarefa" value="Alterar" />
 
-                </div>
-            </div>
-        </div>
+           </div></div>
 
 <?php
         
@@ -315,48 +303,74 @@ class Controller {
 	
     public function salvar($mudanca) {
         
+        
             $dadosGeral = base64_decode($mudanca);
             
             /* realiza separação das variaveis */
             $dadosArray = explode('#@', $dadosGeral);
 
             $id = base64_decode($dadosArray[1]);
-            $dataNormal = base64_decode($dadosArray[2]);
-        
-            /* verifica se campo data não está em branco e realiza conversão da data antes de inserir na base de dados */
-            if($dataNormal != ''){
-            $dataArray = explode('/', $dataNormal);
-            $data = $dataArray[2] . '-' . $dataArray[1]  . '-' . $dataArray[0]  ;
-            } else {
-            $data = '';
-            }
-        
-            $horario = base64_decode($dadosArray[3]);
+            $pegadata = base64_decode($dadosArray[2]);
+            $pegahorario = base64_decode($dadosArray[3]);
             $nome = base64_decode($dadosArray[4]);
+            
         
-            /* realiza conversão da data antes exibir */
-            $dataArray = explode('-', $data);
-            $exibirData = $dataArray[2] . '/' . $dataArray[1]  . '/' . $dataArray[0]  ;
+        // verifica se o data foi escolhida
+        if (empty($pegadata) || $pegadata == '') {
+            echo '<div class="div_msg" ><h3>';
+            echo "Você deve escoler uma data";
+            echo '</h3></div>';
             
-            
-            /* realiza conversão da data antes exibir */
-            $horarioArray = explode(':', $horario);
-            $exibirHorario = $horarioArray[0]  . ':' . $horarioArray[1] ;
-            
-      echo '
-        <div class="div-table">
-			<div class="div-table-row">
-				<div class="div-table-cell">';
+        /* exibe formulario para adicionar */
+        $controller = new Controller();
+		$controller->editar($id); 
         
-            echo "Tarefa #" . $id . " alterada com Sucesso<BR>".  utf8_encode($nome) . " - No dia " . $exibirData . " as " . $exibirHorario;
+        // verifica se a mensagem foi digitada
+        } elseif (empty($pegahorario) || $pegahorario == '') {
+            echo '<div class="div_msg" ><h3>';
+            echo "Você deve escoler um horário";
+            echo '</h3></div>';
             
-        echo '</div></div></div>';
+        /* exibe formulario para adicionar */
+        $controller = new Controller();
+		$controller->editar($id); 
+            
+        // verifica se a mensagem foi digitada
+        } elseif (empty($nome) || $nome == '') {
+            echo '<div class="div_msg" ><h3>';
+            echo "Você deve preencher a descrição";
+            echo '</h3></div>';
+            
+        /* exibe formulario para adicionar */
+        $controller = new Controller();
+		$controller->editar($id); 
+            
+        // verifica se a mensagem nao ultrapassa o limite de caracteres
+        } elseif (strlen($nome) > 200) {
+            echo '<div class="div_msg" ><h3>';
+            echo "A descrição deve ter no máximo 200 caracteres";
+            echo '</h3></div>';
+        
+        /* exibe formulario para adicionar */
+        $controller = new Controller();
+		$controller->editar($id); 
+            
+        // Se não houver nenhum erro
+        } else {
+            
+            /* realiza conversão da data antes inserir */
+            $dataArray = explode('/', $pegadata);
+            $data = $dataArray[2] . '-' . $dataArray[1]  . '-' . $dataArray[0]  ;
+            
+            echo '<div class="div_msg" ><h3>Tarefa #' . $id . ' alterada com Sucesso.
+            <BR><BR>'.  utf8_encode($nome) . ' - No dia ' . $pegadata . ' às ' . $pegahorario . '</h3></div>';
         
             /* conecta ao MySQL pelo Model e realiza a inclusão da tarefa  */
             $model = new Model();
-            $model->alterarDados($id, $data,$horario,$nome);
+            $model->alterarDados($id, $data,$pegahorario,$nome);
         
-    
+            
+        }
         
     }
     
@@ -366,14 +380,9 @@ class Controller {
         $model = new Model();
         $model->excluirDados($id);
             
-        echo '
-        <div class="div-table">
-            <div class="div-table-row">
-                <div class="div-table-cell">
+        echo '<div class="div_msg" >
                 <h3>Tarefa de código #' . $id . ' foi excluida</h3>
-                </div>
-            </div>
-        </div>';
+            </div>';
         
         
     }

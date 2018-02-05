@@ -1,26 +1,100 @@
 @charset "UTF-8";
+
 html, body {
-    height: 100%;
     margin: 0;
     padding: 0;
-    width: 100%;
     font-size: 16px;
-background-image: url(fundo.jpg);
-
-background-size:100% 100%;
-
--webkit-background-size: 100% 100%;
-
--o-background-size: 100% 100%;
-
--khtml-background-size: 100% 100%;
-
--moz-background-size: 100% 100%;
-    
+    background-image: url(fundo.jpg);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: top center;
 }
 
-/* personalização das divs como tabelas */
 
+/* estilo da div titulo*/
+.div_titulo {
+    margin: 5%;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    font-size: 20px;
+    text-align: center;
+}
+
+/* estilo da div navegação */
+.div_navegacao {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    text-align: center;
+    height: 50px;
+}
+
+/* estilo da div principal */
+.div_conteudo {
+    margin: 0;
+    padding: 25px;
+    background-color: rgba(255, 184, 111, 0.3);;
+    text-align: -webkit-center;
+}
+
+/* estilo da div botoes */
+.div_navegacao .botoes {
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 15px;
+    display: inline;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+.div_navegacao .ativo {
+    background-color: rgba(255, 216, 128, 0.6);
+}
+
+
+/* estilo da div mensagem do sistema */
+.div_msg {
+    padding: 25px;
+    background-color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+}
+
+
+/* personalização do formulário */
+.bt_ListarEditar{
+  cursor: pointer;
+  background-color:yellow; 
+  font-size:18px;
+  font-weight:normal;
+}
+.bt_ListarExcluir{
+  cursor: pointer;
+  background-color:red; 
+  font-size:18px;
+  font-weight:normal;
+}
+.bt_NovaTarefa{
+  cursor: pointer;
+  background-color:green; 
+  font-size:18px;
+  font-weight:normal;
+}
+
+.bt_SalvaTarefa{
+  cursor: pointer;
+  background-color:green; 
+  font-size:18px;
+  font-weight:normal;
+}
+.bt_CancelarTarefa{
+  cursor: pointer;
+  background-color:yellow; 
+  font-size:18px;
+  font-weight:normal;
+}
+
+
+/* personalização das divs como tabelas */
 .div-table{
     display: table !important;
     width: 90%;
@@ -63,32 +137,3 @@ background-size:100% 100%;
 .div-table-row-list .div-table-cell{ border: none; }
 .div-table-row-list{ border: none; }
 .div-table-row-list .div-table-cell:first-child{ border-left: none; }
-
-/* personalização do formulário */
-.bt_ListarEditar{
-  background-color:yellow; 
-  font-size:18px;
-  font-weight:normal;
-}
-.bt_ListarExcluir{
-  background-color:red; 
-  font-size:18px;
-  font-weight:normal;
-}
-.bt_NovaTarefa{
-  background-color:green; 
-  font-size:18px;
-  font-weight:normal;
-}
-
-.bt_SalvaTarefa{
-  background-color:green; 
-  font-size:18px;
-  font-weight:normal;
-}
-.bt_CancelarTarefa{
-  background-color:yellow; 
-  font-size:18px;
-  font-weight:normal;
-}
-

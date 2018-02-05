@@ -6,10 +6,10 @@ class Model {
                 
         $con = mysqli_connect("localhost","root","");
         if(!$con){
-            die("Erro no servidor, verifique seus dados");
+            die('<div class="div_msg" >Erro no servidor, verifique seus dados</div>');
         }
         if (!mysqli_select_db($con,"vistasoft")) {
-            die("Erro ao conectar-se ao banco de dados, verifique o nome do banco de dados");
+            die('<div class="div_msg" >Erro ao conectar-se ao banco de dados, verifique o nome do banco de dados</div>');
         }
         return $con;  
     }
@@ -39,7 +39,7 @@ class Model {
         // verifica se houve erro
         if (!mysqli_query($con,$sql))
         {
-            die('<BR>Error: ' . mysqli_error($con));
+            die('<div class="div_msg" >Error: ' . mysqli_error($con) .'</div>');
         }
 
         // finaliza a conexão
@@ -83,7 +83,7 @@ class Model {
         // verifica se houve erro
         if (!mysqli_query($con,$sql))
         {
-            die('<BR>Error: ' . mysqli_error($con));
+            die('<div class="div_msg" >Error: ' . mysqli_error($con) . '</div>');
         }
 
         // finaliza a conexão
@@ -106,7 +106,7 @@ class Model {
         // verifica se houve erro
         if (!mysqli_query($con,$sql))
         {
-            die('<BR>Error: ' . mysqli_error($con));
+            die('<div class="div_msg" >Error: ' . mysqli_error($con) . '</div>');
         }
 
         // finaliza a conexão
