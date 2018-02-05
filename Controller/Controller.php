@@ -148,7 +148,7 @@ class Controller {
         
        echo '<div class="div_conteudo" >';
         
-        echo '<h3> ' . $msg_lista . ' </h3>';
+        echo '<h3><div class="div_msg" > ' . $msg_lista . ' </div></h3>';
         
         /* verifica se há regisatros no sistyema */
         if(mysqli_num_rows($sql)>0){
